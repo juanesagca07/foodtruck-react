@@ -1,7 +1,61 @@
-import "../styles/login.css";
-import logo from "../assets/logo.png";
+import { useState } from "react";
 
-function Login() {
+import "../styles/login.css";
+
+import logo from "../assets/img/logo.png";
+
+function Login({ iniciarSesion }) {
+
+    const [usuario, setUsuario] = useState("");
+
+    const [password, setPassword] = useState("");
+
+    const [error, setError] = useState("");
+
+    const usuarios = [
+
+        {
+            usuario: "admin",
+            password: "1234",
+            rol: "Administrador"
+        },
+
+        {
+            usuario: "cajero",
+            password: "1234",
+            rol: "Cajero"
+        },
+
+        {
+            usuario: "cocina",
+            password: "1234",
+            rol: "Cocina"
+        }
+
+    ];
+
+    const validarLogin = () => {
+
+        const usuarioEncontrado = usuarios.find(
+
+            (u) =>
+
+                u.usuario === usuario &&
+                u.password === password
+
+        );
+
+        if(usuarioEncontrado){
+
+            iniciarSesion(usuarioEncontrado);
+
+        }else{
+
+            setError("Usuario o contraseña incorrectos");
+
+        }
+
+    };
 
     return (
 
@@ -9,8 +63,8 @@ function Login() {
 
             <div className="login-card">
 
-                <img 
-                    src={logo} 
+                <img
+                    src={logo}
                     alt="Logo FoodTruck"
                     className="logo"
                 />
@@ -21,35 +75,57 @@ function Login() {
                     Sistema de gestión para comidas rápidas
                 </p>
 
-                <input 
-                    type="text" 
+                <input
+                    type="text"
                     placeholder="Usuario"
+
+                    value={usuario}
+
+                    onChange={(e) =>
+                        setUsuario(e.target.value)
+                    }
                 />
 
-                <input 
-                    type="password" 
+                <input
+                    type="password"
                     placeholder="Contraseña"
+
+                    value={password}
+
+                    onChange={(e) =>
+                        setPassword(e.target.value)
+                    }
                 />
 
-                <select>
+                {error && (
 
-                    <option>
-                        Administrador
-                    </option>
+                    <span className="error-text">
+                        {error}
+                    </span>
 
-                    <option>
-                        Cajero
-                    </option>
+                )}
 
-                    <option>
-                        Cocina
-                    </option>
+                <button onClick={validarLogin}>
 
-                </select>
-
-                <button>
                     Ingresar al sistema
+
                 </button>
+
+                <div className="usuarios-demo">
+
+                    <small>
+                        admin / 1234
+                    </small>
+
+                    <small>
+                        cajero / 1234
+                    </small>
+
+                    <small>
+                        cocina / 1234
+                    </small>
+
+                </div>
 
             </div>
 
